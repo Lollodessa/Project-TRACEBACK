@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import Image from "next/image";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -38,6 +39,7 @@ export default function RootLayout({
           />
         </div>
         {children}
+        <Footer />
       </body>
     </html>
   );

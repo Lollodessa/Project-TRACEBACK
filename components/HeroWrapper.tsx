@@ -12,13 +12,18 @@ export default function HeroWrapper() {
   const startDismiss = useCallback(() => {
     if (exitingRef.current) return;
     exitingRef.current = true;
-    document.body.style.overflow = ""; // sblocca subito il contenuto sotto
-    setExiting(true);                  // avvia lo slide-up CSS
+    // Riporta sempre la pagina in cima prima di sbloccare lo scroll:
+    // garantisce che "Chi siamo" sia sempre il primo blocco visibile dopo la hero.
+    window.scrollTo(0, 0);
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = ""; // fix iOS Safari
+    setExiting(true);
   }, []);
 
   useEffect(() => {
-    // Blocca lo scroll del body mentre la hero è in primo piano
+    // Blocca lo scroll su body + html (il secondo è necessario su iOS Safari)
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     // Desktop: wheel verso il basso
     const onWheel = (e: WheelEvent) => { if (e.deltaY > 0) startDismiss(); };
@@ -38,6 +43,7 @@ export default function HeroWrapper() {
       // Cleanup: garantisce che il blocco venga rimosso anche se l'utente
       // naviga via prima di fare il dismiss
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
       window.removeEventListener("wheel",      onWheel);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove",  onTouchMove);

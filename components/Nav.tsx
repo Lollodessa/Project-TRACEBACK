@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Crosshair, ShoppingCart, User } from "lucide-react";
 
 export default function Nav() {
@@ -13,18 +14,18 @@ export default function Nav() {
 
         {/* CENTRO — link di navigazione */}
         <div className="flex items-center gap-6">
-          <a
-            href="#"
+          <Link
+            href="/"
             className="text-white text-[11px] tracking-widest uppercase font-medium hover:text-accent transition-colors duration-200"
           >
             Home
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            href="/shop"
             className="text-white text-[11px] tracking-widest uppercase font-medium hover:text-accent transition-colors duration-200"
           >
             Shop
-          </a>
+          </Link>
         </div>
 
         {/* DESTRA — icone */}
