@@ -1,5 +1,5 @@
 import Nav from "@/components/Nav";
-import Hero from "@/components/Hero";
+import HeroWrapper from "@/components/HeroWrapper";
 import About from "@/components/About";
 import Ticker from "@/components/Ticker";
 import Slideshow from "@/components/Slideshow";
@@ -9,8 +9,10 @@ export default function Home() {
   return (
     <>
       <Nav />
+      {/* HeroWrapper è fixed (z-40) — non occupa spazio nel flusso,
+          ma copre tutto il contenuto sotto finché non viene dismessa */}
+      <HeroWrapper />
       <main>
-        <Hero />
         <RevealOnScroll>
           <About />
         </RevealOnScroll>

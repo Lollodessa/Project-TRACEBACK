@@ -5,7 +5,7 @@ import { useRef, useEffect, useState } from "react";
 interface Props {
   children: React.ReactNode;
   className?: string;
-  delay?: string; // es. "delay-150" per staggerare elementi vicini
+  delay?: string;
 }
 
 export default function RevealOnScroll({ children, className = "", delay = "" }: Props) {
@@ -20,10 +20,10 @@ export default function RevealOnScroll({ children, className = "", delay = "" }:
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
-          observer.disconnect(); // anima una sola volta, non ri-triggera uscendo
+          observer.disconnect();
         }
       },
-      { threshold: 0.1 } // entra in animazione appena il 10% è visibile
+      { threshold: 0.2 } // scatta quando il 20% della sezione è visibile, non all'ombra del bordo
     );
 
     observer.observe(el);
@@ -33,10 +33,10 @@ export default function RevealOnScroll({ children, className = "", delay = "" }:
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out will-change-transform ${delay} ${
+      className={`transition-all duration-1000 ease-out ${delay} ${
         visible
           ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-8"
+          : "opacity-0 translate-y-16"   // 64px + durata 1s = movimento chiaramente percepibile
       } ${className}`}
     >
       {children}

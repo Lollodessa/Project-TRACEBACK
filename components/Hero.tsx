@@ -1,28 +1,27 @@
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 
-export default function Hero() {
-  return (
-    <section className="relative h-screen w-full overflow-hidden">
+interface HeroProps {
+  onDismiss: () => void;
+}
 
-      {/* Marmo sfocato — scale(1.05) copre i bordi bianchi che il blur genera ai lati */}
+export default function Hero({ onDismiss }: HeroProps) {
+  return (
+    <section className="relative h-svh w-full overflow-hidden isolate">
+
+      {/* Marmo sfocato — vive SOLO qui dentro la hero */}
       <Image
         src="/marble.jpg"
         alt=""
         fill
         sizes="100vw"
-        className="object-cover object-center scale-[1.05] blur-[6px]"
+        className="object-cover object-center scale-[1.05] blur-[8px]"
         priority
         aria-hidden="true"
       />
 
-      {/* Contenuto */}
       <div className="relative flex flex-col items-center justify-center h-full">
 
-        {/* Logo nero originale.
-            mix-blend-mode: multiply rimuove solo il bianco dello sfondo del PNG
-            (bianco × qualsiasi colore = quel colore, quindi sparisce),
-            il nero del logo resta nero. Nessun filtro applicato al logo. */}
         <Image
           src="/logo.png"
           alt="Project: Traceback"
@@ -33,12 +32,18 @@ export default function Hero() {
           priority
         />
 
-        {/* Freccia viola subito sotto il logo */}
-        <ChevronDown
-          size={28}
-          strokeWidth={1.5}
-          className="mt-1 text-accent animate-blink"
-        />
+        {/* Freccia: click → dismiss della hero */}
+        <button
+          onClick={onDismiss}
+          aria-label="Continua"
+          className="mt-1 cursor-pointer bg-transparent border-0 p-0"
+        >
+          <ChevronDown
+            size={28}
+            strokeWidth={1.5}
+            className="text-accent animate-blink"
+          />
+        </button>
 
       </div>
     </section>

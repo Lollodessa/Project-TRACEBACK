@@ -16,3 +16,8 @@
 @keyframes marquee {
   to { transform: translateX(-50%); }
 }
+
+/* Usato direttamente da Ticker.tsx — più affidabile del token @theme in v4 */
+.marquee-track {
+  animation: marquee 25s linear infinite;
+}
