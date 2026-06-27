@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import CartPanel from "@/components/CartPanel";
+import { CartProvider } from "@/lib/cartContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -38,8 +40,11 @@ export default function RootLayout({
             priority
           />
         </div>
-        {children}
-        <Footer />
+        <CartProvider>
+          <CartPanel />
+          {children}
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

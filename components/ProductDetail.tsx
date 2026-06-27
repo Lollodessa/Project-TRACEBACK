@@ -4,18 +4,20 @@ import { useState } from "react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { products, type Product, type Size } from "@/lib/products";
+import { useCart } from "@/lib/cartContext";
 
 const ALL_SIZES: Size[] = ["S", "M", "L", "XL"];
 
 export default function ProductDetail({ product }: { product: Product }) {
+  const { addItem, openCart } = useCart();
+
   const [variantIdx,    setVariantIdx]    = useState(0);
   const [imageIdx,      setImageIdx]      = useState(0);
   const [selectedSize,  setSelectedSize]  = useState<Size | null>(null);
   const [showSizeError, setShowSizeError] = useState(false);
-  const [added,         setAdded]         = useState(false);
 
-  const variant    = product.variants[variantIdx];
-  const inStock    = variant.inStock;
+  const variant     = product.variants[variantIdx];
+  const inStock     = variant.inStock;
   const activeImage = variant.images[imageIdx] ?? variant.images[0];
 
   const selectVariant = (idx: number) => {
@@ -23,14 +25,22 @@ export default function ProductDetail({ product }: { product: Product }) {
     setImageIdx(0);
     setSelectedSize(null);
     setShowSizeError(false);
-    setAdded(false);
   };
 
   const handleAddToCart = () => {
     if (!selectedSize) { setShowSizeError(true); return; }
     setShowSizeError(false);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    addItem({
+      key:         `${product.id}::${variant.colorName}::${selectedSize}`,
+      productId:   product.id,
+      productName: product.name,
+      colorName:   variant.colorName,
+      colorHex:    variant.colorHex,
+      imageSeed:   variant.images[0],
+      size:        selectedSize,
+      price:       product.price,
+    });
+    openCart();
   };
 
   const related = products.filter(p => p.id !== product.id).slice(0, 3);
@@ -184,13 +194,9 @@ export default function ProductDetail({ product }: { product: Product }) {
           {inStock ? (
             <button
               onClick={handleAddToCart}
-              className={`w-full py-4 rounded-full text-sm tracking-widest uppercase font-medium transition-all duration-300 cursor-pointer ${
-                added
-                  ? "bg-accent text-white"
-                  : "bg-zinc-900 text-white hover:bg-accent"
-              }`}
+              className="w-full py-4 rounded-full text-sm tracking-widest uppercase font-medium bg-zinc-900 text-white hover:bg-accent transition-colors duration-300 cursor-pointer"
             >
-              {added ? "Aggiunto al carrello ✓" : "Aggiungi al carrello"}
+              Aggiungi al carrello
             </button>
           ) : (
             <button
