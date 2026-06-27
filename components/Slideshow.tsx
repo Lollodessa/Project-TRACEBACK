@@ -19,18 +19,40 @@ export default function Slideshow() {
         className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory px-6 pb-4"
         style={{ scrollbarWidth: "none" }}
       >
-        {products.map((p) => (
-          <div
-            key={p.id}
-            className="snap-start flex-shrink-0 w-[72vw] md:w-64 bg-white/80 border border-white/50 shadow-lg shadow-black/10"
-          >
-            <div className="aspect-square bg-zinc-100/80" />
-            <div className="p-4">
-              <span className="text-sm font-medium tracking-wide">{p.name}</span>
-              <p className="text-xs text-zinc-500 mt-0.5">{p.color}</p>
+        {products.map((p) => {
+          const v = p.variants[0];
+          return (
+            <div
+              key={p.id}
+              className="snap-start flex-shrink-0 w-[72vw] md:w-64 bg-white/80 border border-white/50 shadow-lg shadow-black/10"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`https://picsum.photos/seed/${v.images[0]}/400/400`}
+                alt={p.name}
+                className="w-full aspect-square object-cover"
+              />
+              <div className="p-4">
+                <span className="text-sm font-medium tracking-wide">{p.name}</span>
+                <div className="flex items-center gap-1.5 mt-1">
+                  {p.variants.map(variant => (
+                    <span
+                      key={variant.colorName}
+                      title={variant.colorName}
+                      className="w-2.5 h-2.5 rounded-full inline-block"
+                      style={{
+                        backgroundColor: variant.colorHex,
+                        boxShadow: variant.colorName === "Bianco"
+                          ? "inset 0 0 0 1px rgba(0,0,0,0.15)"
+                          : undefined,
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <button
