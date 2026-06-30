@@ -4,6 +4,7 @@ import Image from "next/image";
 import Footer from "@/components/Footer";
 import CartPanel from "@/components/CartPanel";
 import { CartProvider } from "@/lib/cartContext";
+import { AuthProvider } from "@/lib/authContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -40,11 +41,13 @@ export default function RootLayout({
             priority
           />
         </div>
-        <CartProvider>
-          <CartPanel />
-          {children}
-          <Footer />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <CartPanel />
+            {children}
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

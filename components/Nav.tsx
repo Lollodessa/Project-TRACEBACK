@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Crosshair, User } from "lucide-react";
+import { Crosshair } from "lucide-react";
 import NavCartButton from "@/components/NavCartButton";
+import NavUserButton from "@/components/NavUserButton";
 
 export default function Nav() {
   return (
@@ -32,12 +33,7 @@ export default function Nav() {
         {/* DESTRA — icone */}
         <div className="flex items-center gap-4">
           <NavCartButton />
-          <button
-            className="text-white hover:text-accent transition-colors duration-200 cursor-pointer"
-            aria-label="Account"
-          >
-            <User size={18} strokeWidth={1.5} />
-          </button>
+          <NavUserButton />
         </div>
 
       </div>
